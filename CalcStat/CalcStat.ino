@@ -1,13 +1,15 @@
-#define ARRAY_SIZE  (1000)
+#define ARRAY_SIZE  (2000)
 
 int arrayData[ARRAY_SIZE];
-  
+
 void makeArray() {
-//
+  for (int i = 0; i < ARRAY_SIZE; i++)
+    arrayData[i] = 0;
 }
 
 void fillArray() {
-//  
+  for (int i = 0; i < ARRAY_SIZE; i++)
+    arrayData[i] = i + 1;
 }
 
 double getAvg() {
@@ -23,7 +25,7 @@ double getStdDev() {
 }
 
 void printArray(double avg, double var, double stdDev) {
-  
+
 }
 
 void calcStat() {
@@ -32,7 +34,7 @@ void calcStat() {
   double avg = getAvg();
   double var = getVar();
   double stdDev = getStdDev();
-  printArray(avg, var, stdDev); 
+  printArray(avg, var, stdDev);
 }
 
 void setup() {
