@@ -1,4 +1,4 @@
-#define ARRAY_SIZE  (2000)
+#define ARRAY_SIZE  (500)
 
 int arrayData[ARRAY_SIZE];
 
@@ -16,20 +16,31 @@ double getAvg() {
   double sum = 0.;
   for (int i = 0; i < ARRAY_SIZE; i++)
     sum += arrayData[i];
-  return sum/(double)ARRAY_SIZE;
+  return sum / (double)ARRAY_SIZE;
 }
 
 double getVar() {
-  return 0.;
+  double avg = getAvg();
+  double sum = 0.;
+  for (int i = 0; i < ARRAY_SIZE; i++) {
+    double diff = arrayData[i] - avg;
+    sum += diff * diff;
+  }
+  return sum / (double)ARRAY_SIZE;
 }
 
 double getStdDev() {
-  return 0.;
+  double var = getVar();
+  return sqrt(var);
 }
 
 void printArray(double avg, double var, double stdDev) {
   Serial.print("평균 = ");
   Serial.println(avg);
+  Serial.print("분산 = ");
+  Serial.println(var);
+  Serial.print("표준편차 = ");
+  Serial.println(stdDev);
 }
 
 void calcStat() {
@@ -43,7 +54,7 @@ void calcStat() {
 
 void setup() {
   // put your setup code here, to run once: 한 번만 실행
-  Serial.begin(9600);  
+  Serial.begin(9600);
   calcStat();
 }
 
