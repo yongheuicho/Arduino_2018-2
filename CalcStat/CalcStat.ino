@@ -13,7 +13,10 @@ void fillArray() {
 }
 
 double getAvg() {
-  return 0.;
+  double sum = 0.;
+  for (int i = 0; i < ARRAY_SIZE; i++)
+    sum += arrayData[i];
+  return sum/(double)ARRAY_SIZE;
 }
 
 double getVar() {
@@ -25,7 +28,8 @@ double getStdDev() {
 }
 
 void printArray(double avg, double var, double stdDev) {
-
+  Serial.print("평균 = ");
+  Serial.println(avg);
 }
 
 void calcStat() {
@@ -39,6 +43,7 @@ void calcStat() {
 
 void setup() {
   // put your setup code here, to run once: 한 번만 실행
+  Serial.begin(9600);  
   calcStat();
 }
 
