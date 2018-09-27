@@ -444,7 +444,7 @@ inline String StringTok::getMid(int nFirst, int nCount) const
 I/O Methods
 -------------------------------------------------------------------*/
 
-inline void scanf(String & str)
+inline void scans(String & str)
 {
 	String sTmp;
 	while (1)
@@ -456,56 +456,56 @@ inline void scanf(String & str)
 	str = sTmp;
 }
 
-inline void scanf(StringTok & strTok)
+inline void scans(StringTok & strTok)
 {
-	String str; scanf(str);
+	String str; scans(str);
 	strTok.setString(str);
 }
 
-inline void scanf(char & c)
+inline void scans(char & c)
 {
 	while (Serial.available() <= 0) delay(MIN_WAIT_TIME_MS);
 	c = (char)Serial.read();
 }
 
-inline void scanf(int & n)
+inline void scans(int & n)
 {
-	StringTok str; scanf(str);
+	StringTok str; scans(str);
 	n = str.toInt();
 }
 
-inline void scanf(double & x)
+inline void scans(double & x)
 {
-	StringTok str; scanf(str);
+	StringTok str; scans(str);
 	x = str.toDouble();
 }
 
-inline void printf(const String & str)
+inline void prints(const String & str)
 {
 	Serial.print(str);
 }
 
-inline void printf(const StringTok & str)
+inline void prints(const StringTok & str)
 {
 	Serial.print(str.toString());
 }
 
-inline void printf(const char *ptr)
+inline void prints(const char *ptr)
 {
-	String str(ptr); printf(str);
+	String str(ptr); prints(str);
 }
 
-inline void printf(char c)
+inline void prints(char c)
 {
 	Serial.print(c);
 }
 
-inline void printf(int n)
+inline void prints(int n)
 {
 	Serial.print(n);
 }
 
-inline void printf(double x)
+inline void prints(double x)
 {
 	Serial.print(x);
 }

@@ -10,6 +10,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   // Char I/O
-  char c; scanf(c);
-  printf(String("Input char = ")); printf(c);  println();
+  char c; scans(c);
+  prints("Input char = "); prints(c);  println();
 }
