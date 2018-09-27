@@ -9,7 +9,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  // Int I/O
-  int n; scanf(n);
-  printf(String("Input integer = ")); printf(n);  println();
+  // Double I/O
+  double x; scanf(x);
+  printf(String("Input double = ")); printf(x);  println();
 }
