@@ -2,6 +2,7 @@
 #include <StringTok.h>
 
 #define SERIAL_BPS  (9600)
+#define PREC_DIGIT  (20)
 #define OP_SUM    ('+')
 #define OP_SUB    ('-')
 #define FUN_SIN   ('s')
@@ -90,5 +91,6 @@ double calcFun(char cFun, double x) {
 }
 
 void printAns(double x) {
-  prints("Answer = "); prints(x); println();
+  prints("Answer = ");
+  Serial.print(x, PREC_DIGIT); println();
 }
