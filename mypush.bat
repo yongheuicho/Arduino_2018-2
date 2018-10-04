@@ -1,3 +1,3 @@
 git add --all
-git commit -m "[2018-09-27] interface Calculator"
+git commit -m "[2018-10-04] fill printOpFun() and scanOpFun()"
 git push -u origin master
