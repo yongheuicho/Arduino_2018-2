@@ -37,8 +37,9 @@ boolean isOp(char cOpFun) {
   else  return false;
 }
 void printOpFun() {
+  prints("=============================================");
   prints("+ - * / s(sin) c(cos) t(tan) e(exp) l(log)\r\n");
-  prints("Select one of the above operations or functions.\r\n");
+  prints("Select one of the above operations or functions:\r\n");
 }
 
 char scanOpFun() {
@@ -59,7 +60,12 @@ void scanDouble2(double & x1, double & x2) {
 }
 
 double calcOp(char cOp, double x1, double x2) {
-  return 0.;
+  double ans = 0.;
+  switch (cOp) {
+    case OP_SUM: ans = x1 + x2; break;
+    case OP_SUB: ans = x1 - x2; break;
+  }
+  return ans;
 }
 
 double calcFun(char cFun, double x) {
@@ -67,5 +73,5 @@ double calcFun(char cFun, double x) {
 }
 
 void printAns(double x) {
-
+  prints("Answer = "); prints(x); println();
 }
