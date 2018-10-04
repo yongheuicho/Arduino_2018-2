@@ -1,3 +1,4 @@
+#include <math.h>
 #include <StringTok.h>
 
 #define SERIAL_BPS  (9600)
@@ -36,15 +37,26 @@ boolean isOp(char cOpFun) {
   if (cOpFun == OP_SUM || cOpFun == OP_SUB) return true;
   else  return false;
 }
+
 void printOpFun() {
-  prints("=============================================");
-  prints("+ - * / s(sin) c(cos) t(tan) e(exp) l(log)\r\n");
+  prints("======================================\r\n");
+  prints("[Key] + - * / s(sin) c(cos) t(tan) e(exp) l(log)\r\n");
   prints("Select one of the above operations or functions:\r\n");
+}
+
+String decodeOpFun(char c) {
+  switch (c) {
+    case OP_SUM:  return "add (+)";
+    case OP_SUB:  return "subtract (-)";
+    case FUN_SIN: return "sine (sin)";
+    case FUN_COS: return "cosine (cos)";
+    default: return "wrong key";
+  }
 }
 
 char scanOpFun() {
   char c; scans(c);
-  prints("Input operation or function = "); prints(c); println();
+  prints("[Selected key] = "); prints(decodeOpFun(c)); println();
   return c;
 }
 
@@ -69,7 +81,12 @@ double calcOp(char cOp, double x1, double x2) {
 }
 
 double calcFun(char cFun, double x) {
-  return 0.;
+  double ans = 0.;
+  switch (cFun) {
+    case FUN_SIN: ans = sin(x); break;
+    case FUN_COS: ans = cos(x); break;
+  }
+  return ans;
 }
 
 void printAns(double x) {
