@@ -66,6 +66,11 @@ public:
 		return c;
 	}
 
+	String scanOpFunStr() {
+		String str; scans(str);
+		return str;
+	}
+
 	double scanDouble() {
 		prints("double = ");
 		double x; scans(x); prints(x); println();

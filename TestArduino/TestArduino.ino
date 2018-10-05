@@ -1,4 +1,4 @@
-#include <StringTok.h>
+#include <Calculator.h>
 
 #define SERIAL_BPS  (9600)
 
@@ -9,7 +9,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  // Char I/O
-  char c; scans(c);
-  prints("Input char = "); prints(c);  println();
+  Calculator calc;
+  String str = calc.scanOpFunStr();
+  prints(str); println();
 }
