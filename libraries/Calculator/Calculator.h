@@ -11,7 +11,7 @@
 
 class Calculator {
 public:
-	void calculator() {
+	void calc() {
 		printOpFun();
 		char cOpFun = scanOpFun();
 		double ans;
