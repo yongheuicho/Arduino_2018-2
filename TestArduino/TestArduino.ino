@@ -7,7 +7,7 @@ int nInput = 7;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(SERIAL_BPS);
-  pinMode(nInput, INPUT);
+  pinMode(nInput, INPUT_PULLUP);
 }
 
 void loop() {
@@ -15,5 +15,6 @@ void loop() {
   int nVolt = digitalRead(nInput);
   if (nVolt == HIGH)  prints("High");
   else  prints("Low");
+  println();
   delay(3000);  // ms
 }
