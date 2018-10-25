@@ -11,6 +11,15 @@
 
 class Calculator {
 public:
+	void home() {
+		printHome();
+		while (1) {
+			String sCommand = scanHomeCommand();
+			if (parseHomeCommand(sCommand)) break;
+			println();
+		}
+	}
+
 	void calc() {
 		printOpFun();
 		char cOpFun = scanOpFun();
@@ -60,6 +69,13 @@ public:
 		}
 	}
 
+	String scanHomeCommand() {
+		prints("home>");
+		String sCommand; scans(sCommand);
+		prints(sCommand + "\r\n");
+		return sCommand;
+	}
+
 	char scanOpFun() {
 		char c; scans(c);
 		prints("[Selected key] = "); prints(decodeOpFun(c)); println();
@@ -82,6 +98,17 @@ public:
 		prints("x2 "); x2 = scanDouble();
 	}
 
+	void printHome() {
+		prints("Mokwon ICE Calculator [Version 0.1]\r\n");
+		prints("Press \"help\" for more information.\r\n\r\n");
+	}
+
+	void printHomeHelp() {
+		prints("calc: simple calculator\r\n");
+		prints("exit: exit home\r\n");
+		prints("help: help for home\r\n");
+	}
+
 	void printOpFun() {
 		prints("======================================\r\n");
 		prints("[Key] + - * / s(sin) c(cos) t(tan) e(exp) l(log)\r\n");
@@ -91,6 +118,19 @@ public:
 	void printAns(double x) {
 		prints("Answer = ");
 		Serial.print(x, PREC_DIGIT); println();
+	}
+
+	void printError(String sCommand) {
+		prints("Unknown command: " + sCommand);
+		println();
+	}
+
+	boolean parseHomeCommand(String sCommand) {
+		if (sCommand == "exit") return true;
+		else if (sCommand == "help") printHomeHelp();
+		else if (sCommand == "calc") calc();
+		else printError(sCommand);
+		return false;
 	}
 };
 
