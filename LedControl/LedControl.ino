@@ -36,7 +36,7 @@ void parseLedControl(StringTok & stInput) {
   StringTok stToken = stInput.getToken();
   if (stToken.toString() == "start") startLed();
   else if (stToken.toString() == "stop") stopLed();
-  else if (stToken.toString() == "led") onOffLed();
+  else if (stToken.toString() == "turn") turnLed(stInput);
 }
 
 void startLed() {
@@ -47,6 +47,12 @@ void stopLed() {
   bLedControl = false;
 }
 
-void onOffLed() {
+void turnLed(StringTok & stInput) {
   if (!bLedControl) return;
+  StringTok stToken;
+  stToken = stInput.getToken(); // #led
+  int nLed = stToken.toInt();
+  stToken = stInput.getToken(); // "on" or "off"
+  if (stToken.toString() == "on") digitalWrite(nLed, HIGH);
+  else if (stToken.toString() == "off") digitalWrite(nLed, LOW);
 }
