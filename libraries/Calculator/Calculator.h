@@ -22,19 +22,24 @@ public:
 	}
 
 	void calc() {
-		printOpFun();
-		char cOpFun = scanOpFun();
-		double ans;
-		if (isOp(cOpFun)) {
-			double x1, x2;
-			scanDouble2(x1, x2);
-			ans = calcOp(cOpFun, x1, x2);
+		printCalcHome();
+		while (1) {
+			String sCommand = scanCalcCommand();
+			if (parseCalcCommand(sCommand)) break;
+			println();
 		}
-		else {
-			double x = scanDouble();
-			ans = calcFun(cOpFun, x);
-		}
-		printAns(ans);
+		/*		char cOpFun = scanOpFun();
+				double ans;
+				if (isOp(cOpFun)) {
+					double x1, x2;
+					scanDouble2(x1, x2);
+					ans = calcOp(cOpFun, x1, x2);
+				}
+				else {
+					double x = scanDouble();
+					ans = calcFun(cOpFun, x);
+				}
+				printAns(ans);*/
 	}
 
 	boolean isOp(char cOpFun) {
@@ -77,6 +82,13 @@ public:
 		return sCommand;
 	}
 
+	String scanCalcCommand() {
+		prints("calc>");
+		String sCommand; scans(sCommand);
+		prints(sCommand + "\r\n");
+		return sCommand;
+	}
+
 	char scanOpFun() {
 		char c; scans(c);
 		prints("[Selected key] = "); prints(decodeOpFun(c)); println();
@@ -104,16 +116,24 @@ public:
 		prints("Press \"help\" for more information.\r\n\r\n");
 	}
 
+	void printCalcHome() {
+		prints("The Most Simple Calculator [Version 0.1]\r\n");
+		prints("Press \"help\" for more information.\r\n\r\n");
+	}
+
 	void printHomeHelp() {
 		prints("calc: simple calculator\r\n");
 		prints("exit: exit home\r\n");
 		prints("help: help for home\r\n");
 	}
 
-	void printOpFun() {
-		prints("======================================\r\n");
-		prints("[Key] + - * / s(sin) c(cos) t(tan) e(exp) l(log)\r\n");
-		prints("Select one of the above operations or functions:\r\n");
+	void printCalcHelp() {
+		prints("+: additon\r\n");
+		prints("-: subtraction\r\n");
+		prints("sin: sine\r\n");
+		prints("cos: sine\r\n");
+		prints("exit: exit calc\r\n");
+		prints("help: help for calc\r\n");
 	}
 
 	void printAns(double x) {
@@ -130,6 +150,14 @@ public:
 		if (sCommand == "exit") return true;
 		else if (sCommand == "help") printHomeHelp();
 		else if (sCommand == "calc") calc();
+		else printError(sCommand);
+		return false;
+	}
+
+	boolean parseCalcCommand(String sCommand) {
+		if (sCommand == "exit") return true;
+		else if (sCommand == "help") printCalcHelp();
+		else if (sCommand == "+") calcOp(sCommand[0], 0, 0);
 		else printError(sCommand);
 		return false;
 	}
