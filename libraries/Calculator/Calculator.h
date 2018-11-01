@@ -18,6 +18,7 @@ public:
 			if (parseHomeCommand(sCommand)) break;
 			println();
 		}
+		println();
 	}
 
 	void calc() {
