@@ -24,5 +24,13 @@ void loop() {
     swSerial.print(sInput);
   }
 
+  // Rx
+  if (swSerial.available() > 0) {
+    StringTok stInput;
+    stInput.inputSerial(swSerial);
+    String sInput = stInput.toString();
+    Serial.println(sInput);
+  }
+  
   delay(DELAY_MS);
 }
