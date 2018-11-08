@@ -456,9 +456,27 @@ inline void scans(String & str)
 	str = sTmp;
 }
 
+inline void scans(SoftwareSerial & swSerial, String & str)
+{
+	String sTmp;
+	while (1)
+	{
+		while (swSerial.available() > 0) sTmp += (char)swSerial.read();
+		delay(MIN_WAIT_TIME_MS);
+		if (swSerial.available() <= 0 && sTmp.length() > 0) break; // There are input characters.
+	}
+	str = sTmp;
+}
+
 inline void scans(StringTok & strTok)
 {
 	String str; scans(str);
+	strTok.setString(str);
+}
+
+inline void scans(SoftwareSerial & swSerial, StringTok & strTok)
+{
+	String str; scans(swSerial, str);
 	strTok.setString(str);
 }
 
@@ -468,9 +486,21 @@ inline void scans(char & c)
 	c = (char)Serial.read();
 }
 
+inline void scans(SoftwareSerial & swSerial, char & c)
+{
+	while (swSerial.available() <= 0) delay(MIN_WAIT_TIME_MS);
+	c = (char)swSerial.read();
+}
+
 inline void scans(int & n)
 {
 	StringTok str; scans(str);
+	n = str.toInt();
+}
+
+inline void scans(SoftwareSerial & swSerial, int & n)
+{
+	StringTok str; scans(swSerial, str);
 	n = str.toInt();
 }
 
@@ -480,9 +510,20 @@ inline void scans(double & x)
 	x = str.toDouble();
 }
 
+inline void scans(SoftwareSerial & swSerial, double & x)
+{
+	StringTok str; scans(swSerial, str);
+	x = str.toDouble();
+}
+
 inline void prints(const String & str)
 {
 	Serial.print(str);
+}
+
+inline void prints(SoftwareSerial & swSerial, const String & str)
+{
+	swSerial.print(str);
 }
 
 inline void prints(const StringTok & str)
@@ -490,9 +531,19 @@ inline void prints(const StringTok & str)
 	Serial.print(str.toString());
 }
 
+inline void prints(SoftwareSerial & swSerial, const StringTok & str)
+{
+	swSerial.print(str.toString());
+}
+
 inline void prints(const char *ptr)
 {
 	String str(ptr); prints(str);
+}
+
+inline void prints(SoftwareSerial & swSerial, const char *ptr)
+{
+	String str(ptr); prints(swSerial, str);
 }
 
 inline void prints(char c)
@@ -500,9 +551,19 @@ inline void prints(char c)
 	Serial.print(c);
 }
 
+inline void prints(SoftwareSerial & swSerial, char c)
+{
+	swSerial.print(c);
+}
+
 inline void prints(int n)
 {
 	Serial.print(n);
+}
+
+inline void prints(SoftwareSerial & swSerial, int n)
+{
+	swSerial.print(n);
 }
 
 inline void prints(double x)
@@ -510,9 +571,19 @@ inline void prints(double x)
 	Serial.print(x);
 }
 
+inline void prints(SoftwareSerial & swSerial, double x)
+{
+	swSerial.print(x);
+}
+
 inline void println(void)
 {
 	Serial.println("");
+}
+
+inline void println(SoftwareSerial & swSerial)
+{
+	swSerial.println("");
 }
 
 #undef DEF_ARDUINO_MEGA

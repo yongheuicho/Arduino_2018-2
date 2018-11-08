@@ -6,7 +6,7 @@
 #define DELAY_MS      (50)
 #define INPUT_DELAY_MS  (10)
 
-SoftwareSerial swSerial(9, 10); // Rx, Tx
+SoftwareSerial swSerial(10, 11); // Rx, Tx
 
 void setup() {
   // put your setup code here, to run once:
