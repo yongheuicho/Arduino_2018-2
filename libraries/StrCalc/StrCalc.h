@@ -22,3 +22,6 @@ public:
 		return ans;
 	}
 };
+
+#undef OP_SUM
+#undef OP_SUB

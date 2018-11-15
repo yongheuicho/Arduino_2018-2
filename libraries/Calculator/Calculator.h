@@ -3,6 +3,7 @@
 #include <math.h>
 #include <StringTok.h>
 #include <StrCalc.h>
+#include <CalcStat.h>
 
 #define PREC_DIGIT  (20)
 #define OP_SUM    ('+')
@@ -12,6 +13,7 @@
 #define TITLE_HOME	("home")
 #define TITLE_CALC	("calc")
 #define TITLE_EZCALC	("ezCalc")
+#define TITLE_CALCSTAT	("calcStat")
 
 class Calculator {
 public:
@@ -38,6 +40,17 @@ public:
 		while (1) {
 			String sCommand = scanCommand(TITLE_EZCALC);
 			if (parseEzCalcCommand(sCommand)) break;
+			println();
+		}
+	}
+
+	void calcStat() {
+		CalcStat calcStat;
+		calcStat.makeArray();
+		printCalcStatHome(); println();
+		while (1) {
+			String sCommand = scanCommand(TITLE_CALCSTAT);
+			if (parseCalcStatCommand(sCommand, calcStat)) break;
 			println();
 		}
 	}
@@ -87,6 +100,13 @@ public:
 		return sCommand;
 	}
 
+	String scanAnyStr(String sTitle) {
+		prints(sTitle);
+		String sInput; scans(sInput);
+		prints(sInput + "\r\n");
+		return sInput;
+	}
+
 	char scanOpFun() {
 		char c; scans(c);
 		prints("[Selected key] = "); prints(decodeOpFun(c)); println();
@@ -118,6 +138,7 @@ public:
 	void printHomeHelp() {
 		prints("calc: A Most Simple Calculator\r\n");
 		prints("ezCalc: Easy Calculator\r\n");
+		prints("calcStat: Calculator with Statistics\r\n");
 		prints("exit: exit home\r\n");
 		prints("help: help for home");
 	}
@@ -131,7 +152,7 @@ public:
 		prints("+: additon\r\n");
 		prints("-: subtraction\r\n");
 		prints("s: sine\r\n");
-		prints("c: sine\r\n");
+		prints("c: cosine\r\n");
 		prints("exit: exit calc\r\n");
 		prints("help: help for calc");
 	}
@@ -141,8 +162,25 @@ public:
 		prints("Write any math expression or type \"exit\" to exit.\r\n");
 	}
 
+	void printCalcStatHome() {
+		prints("Calculator with Statistics\r\n");
+		prints("Press \"help\" for more information.\r\n");
+	}
+
+	void printCalcStatHelp() {
+		prints("input: input array elements\r\n");
+		prints("avg: average\r\n");
+		prints("exit: exit calcStat\r\n");
+		prints("help: help for calcStat");
+	}
+
 	void printAns(double x) {
 		prints("Answer = ");
+		Serial.print(x, PREC_DIGIT);
+	}
+
+	void printAnyAns(double x, String sTitle) {
+		prints(sTitle + " = ");
 		Serial.print(x, PREC_DIGIT);
 	}
 
@@ -155,6 +193,7 @@ public:
 		else if (sCommand == "help") printHomeHelp();
 		else if (sCommand == "calc") calc();
 		else if (sCommand == "ezCalc") ezCalc();
+		else if (sCommand == "calcStat") calcStat();
 		else printError(sCommand);
 		return false;
 	}
@@ -185,6 +224,21 @@ public:
 		}
 		return false;
 	}
+
+	boolean parseCalcStatCommand(String sCommand, CalcStat & calcStat) {
+		if (sCommand == "exit") return true;
+		else if (sCommand == "help") printCalcStatHelp();
+		else if (sCommand == "input") {
+			StringTok stInput = scanAnyStr("Array elements = ");
+			calcStat.inputArray(stInput);
+		}
+		else if (sCommand == "avg") {
+			double avg = calcStat.getAvg(calcStat.nNumElement);
+			printAnyAns(avg, "Average");
+		}
+		else printError(sCommand);
+		return false;
+	}
 };
 
 #undef PREC_DIGIT
@@ -192,3 +246,6 @@ public:
 #undef OP_SUB
 #undef FUN_SIN
 #undef FUN_COS
+#undef TITLE_HOME
+#undef TITLE_CALC
+#undef TITLE_EZCALC
