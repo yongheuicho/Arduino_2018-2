@@ -4,6 +4,7 @@
 #include <StringTok.h>
 #include <StrCalc.h>
 #include <CalcStat.h>
+#include <LedCtrl.h>
 
 #define PREC_DIGIT  (20)
 #define OP_SUM    ('+')
@@ -14,6 +15,7 @@
 #define TITLE_CALC	("calc")
 #define TITLE_EZCALC	("ezCalc")
 #define TITLE_CALCSTAT	("calcStat")
+#define TITLE_LEDCTRL	("ledCtrl")
 
 class Calculator {
 public:
@@ -51,6 +53,15 @@ public:
 		while (1) {
 			String sCommand = scanCommand(TITLE_CALCSTAT);
 			if (parseCalcStatCommand(sCommand, calcStat)) break;
+			println();
+		}
+	}
+
+	void ledCtrl() {
+		printLedCtrlHome(); println();
+		while (1) {
+			String sCommand = scanCommand(TITLE_LEDCTRL);
+			if (parseLedCtrlCommand(sCommand)) break;
 			println();
 		}
 	}
@@ -139,6 +150,7 @@ public:
 		prints("calc: A Most Simple Calculator\r\n");
 		prints("ezCalc: Easy Calculator\r\n");
 		prints("calcStat: Calculator with Statistics\r\n");
+		prints("ledCtrl: LED Control\r\n");
 		prints("exit: exit home\r\n");
 		prints("help: help for home");
 	}
@@ -174,6 +186,11 @@ public:
 		prints("help: help for calcStat");
 	}
 
+	void printLedCtrlHome() {
+		prints("LED Control\r\n");
+		prints("Write any LED command or type \"exit\" to exit.\r\n");
+	}
+
 	void printAns(double x) {
 		prints("Answer = ");
 		Serial.print(x, PREC_DIGIT);
@@ -194,6 +211,7 @@ public:
 		else if (sCommand == "calc") calc();
 		else if (sCommand == "ezCalc") ezCalc();
 		else if (sCommand == "calcStat") calcStat();
+		else if (sCommand == "ledCtrl") ledCtrl();
 		else printError(sCommand);
 		return false;
 	}
@@ -237,6 +255,13 @@ public:
 			printAnyAns(avg, "Average");
 		}
 		else printError(sCommand);
+		return false;
+	}
+
+	boolean parseLedCtrlCommand(String sCommand) {
+		if (sCommand == "exit") return true;
+		else {
+		}
 		return false;
 	}
 };
