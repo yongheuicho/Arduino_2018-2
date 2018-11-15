@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <StringTok.h>
+#include <StrCalc.h>
 
 #define PREC_DIGIT  (20)
 #define OP_SUM    ('+')
@@ -10,6 +11,7 @@
 #define FUN_COS   ('c')
 #define TITLE_HOME	("home")
 #define TITLE_CALC	("calc")
+#define TITLE_EZCALC	("ezCalc")
 
 class Calculator {
 public:
@@ -27,6 +29,15 @@ public:
 		while (1) {
 			String sCommand = scanCommand(TITLE_CALC);
 			if (parseCalcCommand(sCommand)) break;
+			println();
+		}
+	}
+
+	void ezCalc() {
+		printEzCalcHome(); println();
+		while (1) {
+			String sCommand = scanCommand(TITLE_EZCALC);
+			if (parseEzCalcCommand(sCommand)) break;
 			println();
 		}
 	}
@@ -105,7 +116,8 @@ public:
 	}
 
 	void printHomeHelp() {
-		prints("calc: simple calculator\r\n");
+		prints("calc: A Most Simple Calculator\r\n");
+		prints("ezCalc: Easy Calculator\r\n");
 		prints("exit: exit home\r\n");
 		prints("help: help for home");
 	}
@@ -124,6 +136,11 @@ public:
 		prints("help: help for calc");
 	}
 
+	void printEzCalcHome() {
+		prints("Easy Calculator\r\n");
+		prints("Write any math expression or type \"exit\" to exit.\r\n");
+	}
+
 	void printAns(double x) {
 		prints("Answer = ");
 		Serial.print(x, PREC_DIGIT);
@@ -131,13 +148,13 @@ public:
 
 	void printError(String sCommand) {
 		prints("Unknown command: " + sCommand);
-		println();
 	}
 
 	boolean parseHomeCommand(String sCommand) {
 		if (sCommand == "exit") return true;
 		else if (sCommand == "help") printHomeHelp();
 		else if (sCommand == "calc") calc();
+		else if (sCommand == "ezCalc") ezCalc();
 		else printError(sCommand);
 		return false;
 	}
@@ -154,6 +171,18 @@ public:
 			printAns(calcFun(sCommand[0], x));
 		}
 		else printError(sCommand);
+		return false;
+	}
+
+	boolean parseEzCalcCommand(String sCommand) {
+		if (sCommand == "exit") return true;
+		else {
+			StrCalc strCalc;
+			boolean bError;
+			double ans = strCalc.getAns(sCommand, bError);
+			if (bError) printError(sCommand);
+			else printAns(ans);
+		}
 		return false;
 	}
 };
