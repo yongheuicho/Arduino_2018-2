@@ -8,42 +8,36 @@
 #define OP_SUB    ('-')
 #define FUN_SIN   ('s')
 #define FUN_COS   ('c')
+#define TITLE_HOME	("home")
+#define TITLE_CALC	("calc")
 
 class Calculator {
 public:
 	void home() {
-		printHome();
+		printHome(); println();
 		while (1) {
-			String sCommand = scanHomeCommand();
+			String sCommand = scanCommand(TITLE_HOME);
 			if (parseHomeCommand(sCommand)) break;
 			println();
 		}
-		println();
 	}
 
 	void calc() {
-		printCalcHome();
+		printCalcHome(); println();
 		while (1) {
-			String sCommand = scanCalcCommand();
+			String sCommand = scanCommand(TITLE_CALC);
 			if (parseCalcCommand(sCommand)) break;
 			println();
 		}
-		/*		char cOpFun = scanOpFun();
-				double ans;
-				if (isOp(cOpFun)) {
-					double x1, x2;
-					scanDouble2(x1, x2);
-					ans = calcOp(cOpFun, x1, x2);
-				}
-				else {
-					double x = scanDouble();
-					ans = calcFun(cOpFun, x);
-				}
-				printAns(ans);*/
 	}
 
 	boolean isOp(char cOpFun) {
 		if (cOpFun == OP_SUM || cOpFun == OP_SUB) return true;
+		else  return false;
+	}
+
+	boolean isFun(char cOpFun) {
+		if (cOpFun == FUN_SIN || cOpFun == FUN_COS) return true;
 		else  return false;
 	}
 
@@ -75,15 +69,8 @@ public:
 		}
 	}
 
-	String scanHomeCommand() {
-		prints("home>");
-		String sCommand; scans(sCommand);
-		prints(sCommand + "\r\n");
-		return sCommand;
-	}
-
-	String scanCalcCommand() {
-		prints("calc>");
+	String scanCommand(String sTitle) {
+		prints(sTitle + ">");
 		String sCommand; scans(sCommand);
 		prints(sCommand + "\r\n");
 		return sCommand;
@@ -100,45 +87,46 @@ public:
 		return str;
 	}
 
-	double scanDouble() {
-		prints("double = ");
+	double scanDouble(String sNum) {
+		if (sNum.length() == 0) prints("Input = ");
+		else prints("Input " + sNum + " = ");
 		double x; scans(x); prints(x); println();
 		return x;
 	}
 
 	void scanDouble2(double & x1, double & x2) {
-		prints("x1 "); x1 = scanDouble();
-		prints("x2 "); x2 = scanDouble();
+		x1 = scanDouble("#1");
+		x2 = scanDouble("#2");
 	}
 
 	void printHome() {
 		prints("Mokwon ICE Calculator [Version 0.1]\r\n");
-		prints("Press \"help\" for more information.\r\n\r\n");
-	}
-
-	void printCalcHome() {
-		prints("The Most Simple Calculator [Version 0.1]\r\n");
-		prints("Press \"help\" for more information.\r\n\r\n");
+		prints("Press \"help\" for more information.\r\n");
 	}
 
 	void printHomeHelp() {
 		prints("calc: simple calculator\r\n");
 		prints("exit: exit home\r\n");
-		prints("help: help for home\r\n");
+		prints("help: help for home");
+	}
+
+	void printCalcHome() {
+		prints("A Most Simple Calculator\r\n");
+		prints("Press \"help\" for more information.\r\n");
 	}
 
 	void printCalcHelp() {
 		prints("+: additon\r\n");
 		prints("-: subtraction\r\n");
-		prints("sin: sine\r\n");
-		prints("cos: sine\r\n");
+		prints("s: sine\r\n");
+		prints("c: sine\r\n");
 		prints("exit: exit calc\r\n");
-		prints("help: help for calc\r\n");
+		prints("help: help for calc");
 	}
 
 	void printAns(double x) {
 		prints("Answer = ");
-		Serial.print(x, PREC_DIGIT); println();
+		Serial.print(x, PREC_DIGIT);
 	}
 
 	void printError(String sCommand) {
@@ -157,7 +145,14 @@ public:
 	boolean parseCalcCommand(String sCommand) {
 		if (sCommand == "exit") return true;
 		else if (sCommand == "help") printCalcHelp();
-		else if (sCommand == "+") calcOp(sCommand[0], 0, 0);
+		else if (isOp(sCommand[0])) {
+			double x1, x2; scanDouble2(x1, x2);
+			printAns(calcOp(sCommand[0], x1, x2));
+		}
+		else if (isFun(sCommand[0])) {
+			double x = scanDouble("");
+			printAns(calcFun(sCommand[0], x));
+		}
 		else printError(sCommand);
 		return false;
 	}
